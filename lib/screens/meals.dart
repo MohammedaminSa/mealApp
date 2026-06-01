@@ -4,7 +4,7 @@ class MealScreen extends StatelessWidget {
   const MealScreen({super.key, required this.title, required this.meals});
 
   final String title;
-  final List<Meal> meals;
+  final List meals;
 
   @override
   Widget build(BuildContext context) {
