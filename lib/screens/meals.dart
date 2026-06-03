@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:meal/models/meal.dart';
+import 'package:meal/widgets/meal_item.dart';
 
 class MealScreen extends StatelessWidget {
   const MealScreen({super.key, required this.title, required this.meals});
@@ -41,11 +42,7 @@ class MealScreen extends StatelessWidget {
         itemCount: meals.length,
         itemBuilder: (context, index) {
           final meal = meals[index];
-          return ListTile(
-            leading: Image.network(meal.imageUrl),
-            title: Text(meal.title),
-            subtitle: Text('${meal.duration} min'),
-          );
+          return MealItem(meal: meal);
         },
       );
     }
