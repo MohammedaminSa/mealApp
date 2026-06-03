@@ -1,16 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:meal/models/meal.dart';
 
 class MealScreen extends StatelessWidget {
   const MealScreen({super.key, required this.title, required this.meals});
 
   final String title;
-  final List meals;
+  final List<Meal> meals;
 
   @override
   Widget build(BuildContext context) {
-    Widget content = ListView.builder(
-      itemBuilder: (context, index) => Text(meals[index].title),
-    );
+    Widget content;
 
     if (meals.isEmpty) {
       content = Center(
@@ -25,7 +24,7 @@ class MealScreen extends StatelessWidget {
                 ).colorScheme.onBackground.withOpacity(0.7),
               ),
             ),
-            SizedBox(height: 16),
+            const SizedBox(height: 16),
             Text(
               'Try selecting a different category',
               style: Theme.of(context).textTheme.bodyMedium!.copyWith(
@@ -37,17 +36,18 @@ class MealScreen extends StatelessWidget {
           ],
         ),
       );
-
-      if (meals.isNotEmpty) {
-        content = ListView.builder(
-          itemCount: meals.length,
-          itemBuilder: (context, index) => ListTile(
-            leading: Image.network(meals[index].imageUrl),
-            title: Text(meals[index].title),
-            subtitle: Text(meals[index].category),
-          ),
-        );
-      }
+    } else {
+      content = ListView.builder(
+        itemCount: meals.length,
+        itemBuilder: (context, index) {
+          final meal = meals[index];
+          return ListTile(
+            leading: Image.network(meal.imageUrl),
+            title: Text(meal.title),
+            subtitle: Text('${meal.duration} min'),
+          );
+        },
+      );
     }
 
     return Scaffold(
