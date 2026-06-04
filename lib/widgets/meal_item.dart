@@ -1,16 +1,26 @@
 import "package:flutter/material.dart";
 import "package:meal/models/meal.dart";
+import "package:meal/widgets/meal_item_trait.dart";
 // removed transparent placeholder import; using Image.network loaders instead
 
 class MealItem extends StatelessWidget {
   const MealItem({super.key, required this.meal});
 
   final Meal meal;
+  String get complexityText {
+    return meal.complexity.name[0].toUpperCase() +
+        meal.complexity.name.substring(1);
+  }
+
+  String get affordabilityText {
+    return meal.affordability.name[0].toUpperCase() +
+        meal.affordability.name.substring(1);
+  }
 
   @override
   Widget build(BuildContext context) {
     return Card(
-      margin: const EdgeInsets.all(8),
+      margin: const EdgeInsets.all(10),
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
       clipBehavior: Clip.hardEdge,
       elevation: 2,
@@ -63,20 +73,40 @@ class MealItem extends StatelessWidget {
               child: Container(
                 color: Colors.black54,
                 padding: const EdgeInsets.symmetric(
-                  vertical: 5,
+                  vertical: 10,
                   horizontal: 20,
                 ),
-                child: Text(
-                  meal.title,
-                  maxLines: 2,
-                  textAlign: TextAlign.center,
-                  style: const TextStyle(
-                    fontSize: 20,
-                    fontWeight: FontWeight.bold,
-                    color: Colors.white,
-                  ),
-                  softWrap: true,
-                  overflow: TextOverflow.fade,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: [
+                    Text(
+                      meal.title,
+                      maxLines: 2,
+                      textAlign: TextAlign.center,
+                      style: const TextStyle(
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.white,
+                      ),
+                      softWrap: true,
+                      overflow: TextOverflow.fade,
+                    ),
+                    const SizedBox(height: 12),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        MealItemTrait(
+                          icon: Icons.schedule,
+                          label: '${meal.duration} min',
+                        ),
+                        MealItemTrait(icon: Icons.work, label: complexityText),
+                        MealItemTrait(
+                          icon: Icons.wallet,
+                          label: affordabilityText,
+                        ),
+                      ],
+                    ),
+                  ],
                 ),
               ),
             ),
