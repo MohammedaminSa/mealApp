@@ -4,9 +4,11 @@ import "package:meal/widgets/meal_item_trait.dart";
 // removed transparent placeholder import; using Image.network loaders instead
 
 class MealItem extends StatelessWidget {
-  const MealItem({super.key, required this.meal});
+  const MealItem({super.key, required this.meal, required this.onSelectMeal});
 
   final Meal meal;
+  final void Function(BuildContext context, Meal meal) onSelectMeal;
+
   String get complexityText {
     return meal.complexity.name[0].toUpperCase() +
         meal.complexity.name.substring(1);
@@ -25,7 +27,9 @@ class MealItem extends StatelessWidget {
       clipBehavior: Clip.hardEdge,
       elevation: 2,
       child: InkWell(
-        onTap: () {},
+        onTap: () {
+          onSelectMeal(context, meal);
+        },
         child: Stack(
           children: [
             SizedBox(
